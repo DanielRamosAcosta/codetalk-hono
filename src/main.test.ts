@@ -1,7 +1,7 @@
 import { describe, it } from "node:test";
 import { expect } from "expect";
 import { app as honoApp } from "./app.ts";
-import { CONCHA_ASENSIO } from "./people.ts";
+import { CONCHA_ASENSIO } from "./shared/infrastructure/fixtures/speakers.ts";
 
 describe("main", () => {
   it("should fail if not all params are passed", async () => {
@@ -14,12 +14,8 @@ describe("main", () => {
         id: CONCHA_ASENSIO.id,
         email: CONCHA_ASENSIO.email,
         password: CONCHA_ASENSIO.password,
-        name: CONCHA_ASENSIO.name,
-        age: CONCHA_ASENSIO.age,
-        language: CONCHA_ASENSIO.language,
       }),
     });
-    console.log(JSON.stringify(await res.json(), null, 2));
     expect(res.status).toBe(201);
   });
 });

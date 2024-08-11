@@ -1,0 +1,45 @@
+import { createRoute, OpenAPIHono, type RouteConfig } from "@hono/zod-openapi";
+import type { interfaces } from "inversify";
+import { RegisterSpeaker } from "../use-cases/RegisterSpeaker.ts";
+import type { HonoController } from "../../shared/infrastructure/HonoController.ts";
+import { RegisterSpeakerRequestDTO } from "./dtos/RegisterSpeakerRequestDTO.ts";
+
+export class RegisterSpeakerController implements HonoController {
+  private static Schema = {
+    method: "post",
+    path: "/api/v1/speakers/registration",
+    request: {
+      body: {
+        content: {
+          "application/json": {
+            schema: RegisterSpeakerRequestDTO,
+          },
+        },
+      },
+    },
+    responses: {
+      201: {
+        description: "Speaker registered",
+      },
+    },
+  } satisfies RouteConfig;
+
+  public static create({ container }: interfaces.Context) {
+    const registerSpeaker = container.get(RegisterSpeaker);
+    return new RegisterSpeakerController(registerSpeaker);
+  }
+
+  private readonly registerSpeaker: RegisterSpeaker;
+
+  constructor(registerSpeaker: RegisterSpeaker) {
+    this.registerSpeaker = registerSpeaker;
+  }
+
+  register(api: OpenAPIHono) {
+    api.openapi(createRoute(RegisterSpeakerController.Schema), async (c) => {
+      const body = c.req.valid("json");
+      await this.registerSpeaker.execute();
+      return c.body(null, 201);
+    });
+  }
+}
