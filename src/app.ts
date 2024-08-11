@@ -1,4 +1,5 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
-import { createContainer } from "./container.ts";
+import { container } from "./container.ts";
+import { Token } from "./shared/domain/services/Token.ts";
 
-export const app = createContainer().get<OpenAPIHono>("App");
+export const app = container.get<OpenAPIHono>(Token.APP);

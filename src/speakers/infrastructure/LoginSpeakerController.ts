@@ -5,6 +5,9 @@ import type { HonoController } from "../../shared/infrastructure/HonoController.
 import { LoginSpeakerRequestDTO } from "./dtos/LoginSpeakerRequestDTO.ts";
 import { LoginSpeakerResponseDTO } from "./dtos/LoginSpeakerResponseDTO.ts";
 import { CONCHA_ASENSIO } from "../../shared/infrastructure/fixtures/speakers.ts";
+import { LoginSpeaker } from "../use-cases/LoginSpeaker.ts";
+import { EmailAddress } from "../../shared/domain/models/EmailAddress.ts";
+import { PlainPassword } from "../../shared/domain/models/PlainPassword.ts";
 
 export class LoginSpeakerController implements HonoController {
   private static Schema = {
@@ -32,21 +35,23 @@ export class LoginSpeakerController implements HonoController {
   } satisfies RouteConfig;
 
   public static create({ container }: interfaces.Context) {
-    const registerSpeaker = container.get(RegisterSpeaker);
-    return new LoginSpeakerController(registerSpeaker);
+    return new LoginSpeakerController(container.get(LoginSpeaker));
   }
 
-  private readonly registerSpeaker: RegisterSpeaker;
+  private readonly loginSpeaker: LoginSpeaker;
 
-  constructor(registerSpeaker: RegisterSpeaker) {
-    this.registerSpeaker = registerSpeaker;
+  constructor(loginSpeaker: LoginSpeaker) {
+    this.loginSpeaker = loginSpeaker;
   }
 
   register(api: OpenAPIHono) {
     api.openapi(createRoute(LoginSpeakerController.Schema), async (c) => {
       const body = c.req.valid("json");
-      // await this.registerSpeaker.execute();
-      return c.json({ accessToken: CONCHA_ASENSIO.jwt }, 200);
+      const accessToken = await this.loginSpeaker.execute({
+        email: EmailAddress.fromPrimitives(body.email),
+        password: PlainPassword.fromPrimitives(body.password),
+      });
+      return c.json({ accessToken }, 200);
     });
   }
 }

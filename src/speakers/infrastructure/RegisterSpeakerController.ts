@@ -28,8 +28,7 @@ export class RegisterSpeakerController implements HonoController {
   } satisfies RouteConfig;
 
   public static create({ container }: interfaces.Context) {
-    const registerSpeaker = container.get(RegisterSpeaker);
-    return new RegisterSpeakerController(registerSpeaker);
+    return new RegisterSpeakerController(container.get(RegisterSpeaker));
   }
 
   private readonly registerSpeaker: RegisterSpeaker;

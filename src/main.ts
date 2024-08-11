@@ -12,4 +12,8 @@ app.doc("/docs", {
 
 app.get("/ui", swaggerUI({ url: "/docs" }));
 
-serve(app);
+serve(app, (info) => {
+  const url = `http://localhost:${info.port}`;
+  console.log(`Server listening on ${url}`);
+  console.log(`Swagger UI available at ${url}/ui`)
+});

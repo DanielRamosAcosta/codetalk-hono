@@ -4,14 +4,14 @@
   "main": "main.ts",
   "type": "module",
   "scripts": {
-    "start": "node --experimental-strip-types main.ts",
-    "start:dev": "node --experimental-strip-types --watch main.ts",
+    "start": "NODE_OPTIONS=--experimental-strip-types NODE_NO_WARNINGS=1 node --experimental-strip-types main.ts",
+    "start:dev": "NODE_OPTIONS=--experimental-strip-types NODE_NO_WARNINGS=1 node --experimental-strip-types --watch main.ts",
     "lint:check": "eslint --max-warnings 0 \"{src,test}/**/*.ts\"",
     "lint:fix": "eslint --fix \"{src,test}/**/*.ts\"",
     "lint:ci": "yarn lint:check",
     "typecheck": "tsc",
-    "test": "node --experimental-strip-types --test **/*spec.ts",
-    "test:watch": "node --experimental-strip-types --test --watch **/*spec.ts",
+    "test": "NODE_OPTIONS=--experimental-strip-types NODE_NO_WARNINGS=1 node --experimental-strip-types --test **/*spec.ts",
+    "test:watch": "NODE_OPTIONS=--experimental-strip-types NODE_NO_WARNINGS=1 node --experimental-strip-types --test --watch **/*spec.ts",
     "postinstall": "openapi-zod-client -t template.hbs -o schema.ts openapi.json"
   },
   "author": "",

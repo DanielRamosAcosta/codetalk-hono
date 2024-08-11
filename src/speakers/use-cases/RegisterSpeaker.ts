@@ -22,13 +22,11 @@ export class RegisterSpeaker {
   private readonly eventBus: EventBus;
 
   public static create({ container }: interfaces.Context) {
-    const speakerRepository = container.get<SpeakerRepository>(
-      Token.SPEAKER_REPOSITORY
+    return new RegisterSpeaker(
+      container.get<SpeakerRepository>(Token.SPEAKER_REPOSITORY),
+      container.get<Crypto>(Token.CRYPTO),
+      container.get<EventBus>(Token.EVENT_BUS)
     );
-    const crypto = container.get<Crypto>(Token.CRYPTO);
-    const eventBus = container.get<EventBus>(Token.EVENT_BUS);
-
-    return new RegisterSpeaker(speakerRepository, crypto, eventBus);
   }
 
   constructor(

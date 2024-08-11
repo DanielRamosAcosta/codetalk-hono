@@ -9,32 +9,43 @@ import { Token } from "./shared/domain/services/Token.ts";
 import { SpeakerRepositoryMemory } from "./speakers/infrastructure/repositories/SpeakerRepositoryMemory.ts";
 import { CryptoNode } from "./shared/infrastructure/services/crypto/CryptoNode.ts";
 import { EventBusMemory } from "./shared/infrastructure/events/EventBus/EventBusMemory.ts";
+import { LoginSpeaker } from "./speakers/use-cases/LoginSpeaker.ts";
 
-export function createContainer() {
-  const container = new Container({
-    defaultScope: BindingScopeEnum.Singleton,
-  });
+export const container = new Container({
+  defaultScope: BindingScopeEnum.Singleton,
+});
 
-  container
-    .bind(Token.SPEAKER_REPOSITORY)
-    .toConstantValue(new SpeakerRepositoryMemory());
-  container.bind(Token.CRYPTO).toConstantValue(new CryptoNode());
-  container.bind(RegisterSpeaker).toDynamicValue(RegisterSpeaker.create);
-  container.bind(Token.CLOCK).toConstantValue(new ClockFake());
-  container.bind(Token.EVENT_BUS).toConstantValue(new EventBusMemory());
-  container.bind("Controller").toDynamicValue(RegisterSpeakerController.create);
-  container.bind("Controller").toDynamicValue(LoginSpeakerController.create);
-  container.bind("Hono").toConstantValue(new OpenAPIHono());
-  container.bind("App").toDynamicValue((context) => {
-    const api = context.container.get<OpenAPIHono>("Hono");
-    const controllers = context.container.getAll<HonoController>("Controller");
+// Use Cases
+container.bind(RegisterSpeaker).toDynamicValue(RegisterSpeaker.create);
+container.bind(LoginSpeaker).toDynamicValue(LoginSpeaker.create);
 
-    for (const controller of controllers) {
-      controller.register(api);
-    }
+// Repositories
+container
+  .bind(Token.SPEAKER_REPOSITORY)
+  .toConstantValue(new SpeakerRepositoryMemory());
 
-    return api;
-  });
+// Services
+container.bind(Token.CRYPTO).toConstantValue(new CryptoNode());
+container.bind(Token.CLOCK).toConstantValue(new ClockFake());
+container.bind(Token.EVENT_BUS).toConstantValue(new EventBusMemory());
 
-  return container;
-}
+// Controllers
+container
+  .bind(Token.CONTROLLER)
+  .toDynamicValue(RegisterSpeakerController.create);
+container.bind(Token.CONTROLLER).toDynamicValue(LoginSpeakerController.create);
+
+// Hono
+container.bind(Token.HONO).toConstantValue(new OpenAPIHono());
+container.bind(Token.APP).toDynamicValue((context) => {
+  const api = context.container.get<OpenAPIHono>(Token.HONO);
+  const controllers = context.container.getAll<HonoController>(
+    Token.CONTROLLER
+  );
+
+  for (const controller of controllers) {
+    controller.register(api);
+  }
+
+  return api;
+});

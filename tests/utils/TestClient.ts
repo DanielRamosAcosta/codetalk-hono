@@ -1,10 +1,14 @@
 import type { OpenAPIHono } from "@hono/zod-openapi";
 import { expect } from "expect";
 import type { Container } from "inversify";
-import { createContainer } from "../../src/container.ts";
+import { container } from "../../src/container.ts";
 import type { Clock } from "../../src/shared/domain/services/Clock.ts";
 import { CONCHA_ASENSIO } from "../../src/shared/infrastructure/fixtures/speakers.ts";
 import { Token } from "../../src/shared/domain/services/Token.ts";
+import {
+  isReseteable,
+  type Reseteable,
+} from "../../src/shared/infrastructure/repositories/Reseteable.ts";
 
 class TestClient {
   private readonly container: Container;
@@ -14,11 +18,21 @@ class TestClient {
   }
 
   get app() {
-    return this.container.get<OpenAPIHono>("App");
+    return this.container.get<OpenAPIHono>(Token.APP);
   }
 
   getClock() {
     return this.container.get<Clock>(Token.CLOCK);
+  }
+
+  async reset() {
+    const repositories = [
+      this.container.get<Reseteable>(Token.SPEAKER_REPOSITORY),
+    ].filter(isReseteable);
+
+    for (const repository of repositories) {
+      await repository.reset();
+    }
   }
 
   async registerSpeaker() {
@@ -61,5 +75,5 @@ class TestClient {
 }
 
 export async function createClient() {
-  return new TestClient(createContainer());
+  return new TestClient(container);
 }
