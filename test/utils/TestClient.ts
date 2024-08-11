@@ -1,9 +1,10 @@
 import type { OpenAPIHono } from "@hono/zod-openapi";
 import { expect } from "expect";
 import type { Container } from "inversify";
-import { container } from "../../src/container.ts";
+import { createContainer } from "../../src/container.ts";
 import type { Clock } from "../../src/shared/domain/services/Clock.ts";
 import { CONCHA_ASENSIO } from "../../src/shared/infrastructure/fixtures/speakers.ts";
+import { Token } from "../../src/shared/domain/services/Token.ts";
 
 class TestClient {
   private readonly container: Container;
@@ -17,7 +18,7 @@ class TestClient {
   }
 
   getClock() {
-    return this.container.get<Clock>("Clock");
+    return this.container.get<Clock>(Token.CLOCK);
   }
 
   async registerSpeaker() {
@@ -60,5 +61,5 @@ class TestClient {
 }
 
 export async function createClient() {
-  return new TestClient(container);
+  return new TestClient(createContainer());
 }

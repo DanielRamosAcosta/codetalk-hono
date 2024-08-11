@@ -45,7 +45,7 @@ export class LoginSpeakerController implements HonoController {
   register(api: OpenAPIHono) {
     api.openapi(createRoute(LoginSpeakerController.Schema), async (c) => {
       const body = c.req.valid("json");
-      await this.registerSpeaker.execute();
+      // await this.registerSpeaker.execute();
       return c.json({ accessToken: CONCHA_ASENSIO.jwt }, 200);
     });
   }

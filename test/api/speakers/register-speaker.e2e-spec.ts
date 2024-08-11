@@ -1,4 +1,4 @@
-import { describe, it } from "node:test";
+import { describe, it, beforeEach } from "node:test";
 import { expect } from "expect";
 import * as jwt from "jsonwebtoken";
 import type { JwtPayload } from "jsonwebtoken";
