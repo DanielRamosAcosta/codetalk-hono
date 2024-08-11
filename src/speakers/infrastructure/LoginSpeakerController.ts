@@ -1,10 +1,8 @@
 import { createRoute, OpenAPIHono, type RouteConfig } from "@hono/zod-openapi";
 import type { interfaces } from "inversify";
-import { RegisterSpeaker } from "../use-cases/RegisterSpeaker.ts";
 import type { HonoController } from "../../shared/infrastructure/HonoController.ts";
 import { LoginSpeakerRequestDTO } from "./dtos/LoginSpeakerRequestDTO.ts";
 import { LoginSpeakerResponseDTO } from "./dtos/LoginSpeakerResponseDTO.ts";
-import { CONCHA_ASENSIO } from "../../shared/infrastructure/fixtures/speakers.ts";
 import { LoginSpeaker } from "../use-cases/LoginSpeaker.ts";
 import { EmailAddress } from "../../shared/domain/models/EmailAddress.ts";
 import { PlainPassword } from "../../shared/domain/models/PlainPassword.ts";

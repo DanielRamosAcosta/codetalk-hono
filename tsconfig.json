@@ -4,6 +4,7 @@
     "noEmit": true,
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
-    "strict": true
+    "strict": true,
+    "skipLibCheck": true
   }
 }
