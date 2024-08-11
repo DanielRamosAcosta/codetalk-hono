@@ -1,10 +1,13 @@
 {
   "name": "codetalk-pure",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "main.ts",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node --experimental-strip-types main.ts",
+    "start:dev": "node --experimental-strip-types --watch main.ts",
+    "test": "node --experimental-strip-types --test main.test.ts",
+    "test:watch": "node --experimental-strip-types --test --watch main.test.ts"
   },
   "author": "",
   "license": "ISC",
