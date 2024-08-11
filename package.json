@@ -1,0 +1,25 @@
+{
+  "name": "codetalk-pure",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@hono/node-server": "^1.12.0",
+    "@hono/swagger-ui": "^0.4.0",
+    "@hono/zod-openapi": "^0.15.3",
+    "hono": "^4.5.5",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.2.0",
+    "expect": "^29.7.0",
+    "prettier": "^3.3.3",
+    "tepper": "^1.2.0"
+  }
+}
