@@ -7,7 +7,8 @@
     "start": "node --experimental-strip-types main.ts",
     "start:dev": "node --experimental-strip-types --watch main.ts",
     "test": "node --experimental-strip-types --test main.test.ts",
-    "test:watch": "node --experimental-strip-types --test --watch main.test.ts"
+    "test:watch": "node --experimental-strip-types --test --watch main.test.ts",
+    "postinstall": "openapi-zod-client -t template.hbs -o schema.ts openapi.json"
   },
   "author": "",
   "license": "ISC",
@@ -16,12 +17,15 @@
     "@hono/node-server": "^1.12.0",
     "@hono/swagger-ui": "^0.4.0",
     "@hono/zod-openapi": "^0.15.3",
+    "@hono/zod-validator": "^0.2.2",
     "hono": "^4.5.5",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "koa": "^2.15.3"
   },
   "devDependencies": {
     "@types/node": "^22.2.0",
     "expect": "^29.7.0",
+    "openapi-zod-client": "^1.18.2",
     "prettier": "^3.3.3",
     "tepper": "^1.2.0"
   }

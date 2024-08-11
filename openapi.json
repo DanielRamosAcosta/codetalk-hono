@@ -1,0 +1,426 @@
+{
+    "openapi": "3.0.0",
+    "paths": {
+        "/api/v1/events": {
+            "post": {
+                "operationId": "CreateEventEndpoint_execute",
+                "summary": "Create new event",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateEventRequestDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "tag": "Events",
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "basic-auth": []
+                    }
+                ],
+                "tags": [
+                    "Events"
+                ]
+            },
+            "get": {
+                "operationId": "ListEventsEndpoint_execute",
+                "summary": "List events",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "tag": "Events",
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "basic-auth": []
+                    }
+                ],
+                "tags": [
+                    "Events"
+                ]
+            }
+        },
+        "/api/v1/speakers": {
+            "post": {
+                "operationId": "CreateSpeakerEndpoint_execute",
+                "summary": "Creates a speaker",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateSpeakerRequestDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "tag": "Speakers",
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "basic-auth": []
+                    }
+                ],
+                "tags": [
+                    "Speakers"
+                ]
+            }
+        },
+        "/api/v1/speakers/{id}": {
+            "get": {
+                "operationId": "GetSpeakerEndpoint_execute",
+                "summary": "Get speaker",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "tag": "Speakers",
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "basic-auth": []
+                    }
+                ],
+                "tags": [
+                    "Speakers"
+                ]
+            }
+        },
+        "/api/v1/talks": {
+            "post": {
+                "operationId": "CreateTalkEndpoint_execute",
+                "summary": "Creates a talk",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateTalkRequestDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "tag": "Talks",
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "basic-auth": []
+                    }
+                ],
+                "tags": [
+                    "Talks"
+                ]
+            }
+        },
+        "/api/v1/talks/{id}": {
+            "get": {
+                "operationId": "GetTalkEndpoint_execute",
+                "summary": "Get talk by id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "tag": "Talks",
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "basic-auth": []
+                    }
+                ],
+                "tags": [
+                    "Talks"
+                ]
+            }
+        },
+        "/api/v1/talks/{id}/assignation": {
+            "put": {
+                "operationId": "ReviewTalkEndpoint_execute",
+                "summary": "Assigns a talk to a reviewer",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ReviewTalkRequestDTO"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "tag": "Talks",
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "basic-auth": []
+                    }
+                ],
+                "tags": [
+                    "Talks"
+                ]
+            }
+        },
+        "/api/v1/talks/{id}/approve": {
+            "put": {
+                "operationId": "ApproveTalkEndpoint_execute",
+                "summary": "Approve talk",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "tag": "Talks",
+                        "description": ""
+                    }
+                },
+                "security": [
+                    {
+                        "basic-auth": []
+                    }
+                ],
+                "tags": [
+                    "Talks"
+                ]
+            }
+        }
+    },
+    "info": {
+        "title": "CodeTalk",
+        "description": "CodeTalk",
+        "version": "1.0",
+        "contact": {}
+    },
+    "tags": [],
+    "servers": [],
+    "components": {
+        "securitySchemes": {
+            "bearer": {
+                "scheme": "bearer",
+                "bearerFormat": "JWT",
+                "type": "http"
+            }
+        },
+        "schemas": {
+            "DateRangeDTO": {
+                "type": "object",
+                "properties": {
+                    "startDate": {
+                        "type": "string",
+                        "example": "2023-05-09T08:00:00.000Z",
+                        "format": "date-time"
+                    },
+                    "endDate": {
+                        "type": "string",
+                        "example": "2023-05-10T18:00:00.000Z",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "startDate",
+                    "endDate"
+                ]
+            },
+            "ProposalDateRangeDTO": {
+                "type": "object",
+                "properties": {
+                    "startDate": {
+                        "type": "string",
+                        "example": "2022-12-15T00:00:00.000Z",
+                        "format": "date-time"
+                    },
+                    "deadline": {
+                        "type": "string",
+                        "example": "2023-03-20T23:59:00.000Z",
+                        "format": "date-time"
+                    }
+                },
+                "required": [
+                    "startDate",
+                    "deadline"
+                ]
+            },
+            "CreateEventRequestDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "e1bd47cc-6b6f-462b-bcb8-45e923725cb4"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "CodeMotion"
+                    },
+                    "dateRange": {
+                        "$ref": "#/components/schemas/DateRangeDTO"
+                    },
+                    "proposalsDateRange": {
+                        "$ref": "#/components/schemas/ProposalDateRangeDTO"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "dateRange",
+                    "proposalsDateRange"
+                ]
+            },
+            "CreateSpeakerRequestDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "b741e452-a5ca-48f3-92f0-5bdbc4d84c81"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Joyce Lin"
+                    },
+                    "age": {
+                        "type": "number",
+                        "example": 30
+                    },
+                    "language": {
+                        "type": "string",
+                        "example": "ENGLISH",
+                        "enum": [
+                            "SPANISH",
+                            "ENGLISH"
+                        ]
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "joyce-lin@gmail.com"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name",
+                    "age",
+                    "language",
+                    "email"
+                ]
+            },
+            "CreateTalkRequestDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "994e8e5f-d82a-4e16-bfae-33d279e86a72"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "APIs Are Eating the Universe"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Learn about the popularity of API protocols and patterns over time, and see what’s coming up next in the future of APIs and API development."
+                    },
+                    "language": {
+                        "type": "string",
+                        "example": "ENGLISH",
+                        "enum": [
+                            "SPANISH",
+                            "ENGLISH"
+                        ]
+                    },
+                    "cospeakers": {
+                        "example": [],
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "speakerId": {
+                        "type": "string",
+                        "example": "b741e452-a5ca-48f3-92f0-5bdbc4d84c81"
+                    },
+                    "eventId": {
+                        "type": "string",
+                        "example": "e1bd47cc-6b6f-462b-bcb8-45e923725cb4"
+                    }
+                },
+                "required": [
+                    "id",
+                    "title",
+                    "description",
+                    "language",
+                    "cospeakers",
+                    "speakerId",
+                    "eventId"
+                ]
+            },
+            "ReviewTalkRequestDTO": {
+                "type": "object",
+                "properties": {
+                    "reviewerId": {
+                        "type": "string",
+                        "example": "08827421-af7b-481a-8df4-f809019773fa"
+                    }
+                },
+                "required": [
+                    "reviewerId"
+                ]
+            }
+        }
+    }
+}
